@@ -1,35 +1,64 @@
-## Бот для получения финансовой информации
-Должен работать, ищется по названию StockExchangeBot
-Ссылка: https://web.telegram.org/k/#@MyTestMSCbot
+# Financial Data Telegram Bot
 
-Изначально планировался для парсинга инфо с MOEX, всвязи с тем, что Московская биржа прекратила торги некоторыми валютами, добавился API Центробанка.
-Основные функции на данный момент (цитата от имени бота):
-Бот планируется развивать
+**Telegram bot for retrieving financial market data** via public APIs from MOEX and the Central Bank of Russia (CBR).
 
-'<b>"Дивиденды по акциям"</b> - 
-все дивиденды, которые выплачивала компания последние несколько лет (от 5 до 10, 
-                         если выплачивала, конечно), а также предстоящие дивиденды 
-                         в этом году, если по ним принято решение\n'
-                         формат - ТИКЕР - дата - сумма.  \n  Для получения информации 
-                         надо ввести тикер, но 9 тикеров я для вас уже приготовил.
-                         
-<b>"Курсы валют"</b> - здесь всё просто, 8 валют, информация 
-                         представлена в виде id валюты - наименование - курс в рублях 
+The bot provides up-to-date financial information in Telegram: exchange rates, stock quotes, and dividend history.
 
-<b>"Котировка акций"</b> - можно ввести тикер, выбрать из 10 '
-                         самых популярных акций или поискать тикер по названию.
+---
 
-<b>Структура</b>:
+## 🚀 Features
 
-<b>api</b> - запросы на API MOEX и ЦБ РФ
-<b>config_data</b> - понятно
-<b>database</b> содержит файл, описывающий классы peewee и запускающий базу данных
+- **Exchange rates** — retrieves current currency rates from the Central Bank API  
+- **Stock quotes** — fetches stock prices from the Moscow Exchange (MOEX)  
+- **Dividend history** — shows past dividends for a company (if available)  
+- All data retrieved from external APIs and formatted for user-friendly display in Telegram.
 
-**handlers** - понятно по названию, help и history объединены в один файл, так как history - абсолютно 
-    не нужная мне команда, потом я смогу её стереть
+---
 
-**keyboards** - тоже понятно по названию
+## 🧠 How It Works
 
-**states** - в полной мере не реализовано, оставлено на будущее
+- Listens for commands from users via Telegram Bot API  
+- Makes HTTP requests to official APIs (CBR and MOEX)  
+- Parses and organizes API responses for clear rendering in Telegram  
+- Uses local storage (SQLite via Peewee ORM) for managing bot state
 
-**utils** - в том числе файл для удаления записей в базе данных, пока не работает, потому что база данных будет другая и условия ее удаления будут, соответственно, другие.
+---
+
+## 🛠 Tech Stack
+
+- **Python** — core programming language  
+- **Aiogram / TeleBot** — Telegram bot frameworks  
+- **Requests / asyncio** — for HTTP calls and async logic  
+- **SQLite + Peewee** — lightweight storage  
+- **Docker + docker-compose** — containerized environment
+
+---
+
+## 🔧 Setup and Run
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/NVLev/stock_exchange-telegram-bot
+cd stock_exchange-telegram-bot
+```
+
+2.  Create and edit .env with your bot token:
+```bash
+TELEGRAM_BOT_TOKEN=your_token_here
+```
+3.  Install Python dependencies:
+```bash
+pip install -r requirements.txt
+```
+4. Run locally:
+```bash
+python bot.py
+```
+## 📌 Commands
+| Command               | Description                                 |
+| --------------------- | ------------------------------------------- |
+| `/start`              | Shows welcome message                       |
+| `/rates`              | Displays current exchange rates             |
+| `/quote <TICKER>`     | Shows last available stock price            |
+| `/dividends <TICKER>` | Shows dividend history for the given ticker |
